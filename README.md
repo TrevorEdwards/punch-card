@@ -4,7 +4,7 @@ fill your punchcard the easy way
 ## About
 This is a joke script to fill up your GitHub repo's [punch card](https://github.com/TrevorEdwards/punch-card/graphs/punch-card).
 
-It is very untested and may ruin everything. Use with caution.
+It is very untested and may ruin everything. Right now it may miss a few punches. Use with caution.
 
 ## To use:
 
