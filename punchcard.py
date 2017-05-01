@@ -5,14 +5,17 @@ def main():
     dates = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
     times = []
     for i in range(0,24):
-        times.append(' ' + str(i) + ':')
+        appendStr = '' + str(i)
+        if i < 10:
+            appendStr = '0' + str(i)
+        times.append(appendStr + ':')
     satisfied = []
     for i in range(7):
         satisfied.append([])
     for i in range(7):
         for j in range(24):
             satisfied[i].append(False)
-    log_process = subprocess.Popen(['git','log'], stdout=subprocess.PIPE)
+    log_process = subprocess.Popen(['git','log','--sparse','--full-history'], stdout=subprocess.PIPE)
     lines = []
     currentStr = ''
 
@@ -29,7 +32,7 @@ def main():
         for j in range(24):
             time_clock = times[j]
             for entry in lines:
-                if date in entry and time_clock in entry:
+                if (' ' + date) in entry and (' ' + time_clock) in entry:
                     satisfied[i][j] = True
 
     for i in range(7):
@@ -38,23 +41,23 @@ def main():
             time_clock = times[j]
             if not satisfied[i][j]:
                 print(date + ' ' + time_clock)
-                bs_commit(date,time_clock)
+                bs_commit(date,time_clock,i)
     
-def bs_commit(day, time_clock):
-    sleep_time = 0.1
+def bs_commit(day, time_clock, map_index):
+    day_map = [3,4,5,6,7,8,9]
+    sleep_time = 0.2
     fake_echo = ['bash','filler.sh']
     do_add = 'git add filler.txt'.split(' ')
-    do_commit = ['git', 'commit', '-m' ,'timestamp filler' ,'--date', str(day) + ' Apr 1' + str(time_clock) + '00:00 2017 -0400' ]
-    print(do_commit)
+    do_commit = ['git', 'commit', '-m' ,'timestamp filler' ,'--date', str(day) + ' Apr '+ str(day_map[map_index])  + str(time_clock) + '00:00 2017 -0400' ]
     print("doing filler")
-    subprocess.call(fake_echo, stdout=subprocess.PIPE)
-    time.sleep(sleep_time)
+    p=subprocess.Popen(fake_echo, stdout=subprocess.PIPE)
+    p.wait()
     print("doing add")
-    subprocess.Popen(do_add, stdout=subprocess.PIPE)
-    time.sleep(sleep_time)
+    p=subprocess.Popen(do_add, stdout=subprocess.PIPE)
+    p.wait()
     print("doing commit")
-    subprocess.Popen(do_commit, stdout=subprocess.PIPE)
-    time.sleep(sleep_time)
+    p=subprocess.Popen(do_commit, stdout=subprocess.PIPE)
+    p.wait()
 
 main()
 
