@@ -48,7 +48,7 @@ def bs_commit(day, time_clock, map_index):
     sleep_time = 0.2
     fake_echo = ['bash','filler.sh']
     do_add = 'git add filler.txt'.split(' ')
-    do_commit = ['git', 'commit', '-m' ,'timestamp filler' ,'--date', str(day) + ' Apr '+ str(day_map[map_index])  + str(time_clock) + '00:00 2017 -0400' ]
+    do_commit = ['git', 'commit', '-m' ,'timestamp filler' ,'--date', str(day) + ' Apr '+ str(day_map[map_index]) + ' '  + str(time_clock) + '00:00 2017 -0400' ]
     print("doing filler")
     p=subprocess.Popen(fake_echo, stdout=subprocess.PIPE)
     p.wait()
